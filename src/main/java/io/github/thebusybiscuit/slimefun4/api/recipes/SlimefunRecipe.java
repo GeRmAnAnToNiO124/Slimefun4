@@ -26,6 +26,16 @@ public abstract class SlimefunRecipe extends RecipePredicate {
     }
 
     /**
+     * This method returns a mutable array of the {@link Ingredient Ingredients} used in
+     * this {@link SlimefunRecipe}.
+     * 
+     * @return The {@link Ingredient Ingredients} used in this recipe
+     */
+    public Ingredient[] getIngredients() {
+        return ingredients;
+    }
+
+    /**
      * This method returns the result of this crafting operation.
      * It takes the input items as a parameter in case the result may dependent on
      * what items were used.
@@ -36,5 +46,10 @@ public abstract class SlimefunRecipe extends RecipePredicate {
      * @return The resulting {@link ItemStack}
      */
     public abstract ItemStack getResult(ItemStack[] input);
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " (" + ingredients.length + " Ingredients)";
+    }
 
 }

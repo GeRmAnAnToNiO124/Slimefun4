@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class RecipePredicate implements Predicate<ItemStack[]> {
 
-    private final Predicate<ItemStack>[] predicates;
+    protected final Ingredient[] ingredients;
 
     /**
      * This constructs a new {@link RecipePredicate} from the given {@link Ingredient Ingredients}.
@@ -27,17 +27,17 @@ public class RecipePredicate implements Predicate<ItemStack[]> {
      *            The {@link Ingredient} Array to use for this {@link RecipePredicate}
      */
     public RecipePredicate(Ingredient... ingredients) {
-        this.predicates = ingredients;
+        this.ingredients = ingredients;
     }
 
     @Override
     public boolean test(ItemStack[] items) {
-        if (items.length != predicates.length) {
+        if (items.length != ingredients.length) {
             return false;
         }
 
         for (int i = 0; i < items.length; i++) {
-            if (!predicates[i].test(items[i])) {
+            if (!ingredients[i].test(items[i])) {
                 return false;
             }
         }
