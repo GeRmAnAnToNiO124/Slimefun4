@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.api.recipes;
 
 import java.util.function.Predicate;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -33,6 +34,10 @@ class ItemPredicate implements Predicate<ItemStack> {
 
     @Override
     public boolean test(ItemStack subject) {
+        if (subject == null || subject.getType() == Material.AIR) {
+            return false;
+        }
+
         for (ItemStack item : items) {
             if (SlimefunUtils.isItemSimilar(subject, item, true, false)) {
                 // Return true if any of the items matched

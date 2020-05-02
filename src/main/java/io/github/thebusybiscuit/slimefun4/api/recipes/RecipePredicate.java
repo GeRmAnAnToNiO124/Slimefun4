@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
  * 
  * @author TheBusyBiscuit
  * 
+ * @see SlimefunRecipe
  * @see Ingredient
  *
  */

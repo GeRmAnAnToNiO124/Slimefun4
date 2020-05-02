@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.api.recipes;
 
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.core.recipes.contexts.CraftingContext;
+
 /**
  * This is the super class for all Slimefun Recipes.
  * It is an extension of {@link RecipePredicate} and has one abstract method: {@link #getResult(ItemStack[])}
@@ -37,15 +39,19 @@ public abstract class SlimefunRecipe extends RecipePredicate {
 
     /**
      * This method returns the result of this crafting operation.
-     * It takes the input items as a parameter in case the result may dependent on
-     * what items were used.
+     * It also takes the input items as a parameter in case the result may dependent on
+     * what items were used (e.g. Backpacks).
      * 
-     * @param input
-     *            The items that were used to craft this {@link SlimefunRecipe}
+     * This method should never return null. If the {@link RecipeContext} is not a {@link CraftingContext}
+     * then a default ItemStack must be returned.
      * 
-     * @return The resulting {@link ItemStack}
+     * @param context
+     *            The {@link RecipeContext} in which the result was requested,
+     *            whether it was just a query or an actual crafting process
+     * 
+     * @return The resulting {@link ItemStack ItemStacks}
      */
-    public abstract ItemStack getResult(ItemStack[] input);
+    public abstract ItemStack getResult(RecipeContext context);
 
     @Override
     public String toString() {
