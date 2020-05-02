@@ -30,14 +30,15 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class Ingredient implements Predicate<ItemStack> {
 
+    private static final Ingredient emptyIngredient = new Ingredient();
+
     private final Predicate<ItemStack> predicate;
     private final Collection<ItemStack> variations;
 
     /**
-     * This creates a new {@code NULL} {@link Predicate}.
-     * The {@link Predicate} will match if the given {@link ItemStack} is either null or Air.
+     * Private constructor used for initializing the emptyIngredient field.
      */
-    public Ingredient() {
+    private Ingredient() {
         this.predicate = item -> item == null || item.getType() == Material.AIR;
         this.variations = Collections.emptyList();
     }
@@ -53,7 +54,7 @@ public class Ingredient implements Predicate<ItemStack> {
         Validate.notNull(choice, "MaterialChoice may not be null!");
 
         this.predicate = item -> {
-            if (item == null || item.getType().equals(Material.AIR)) {
+            if (item == null || item.getType() == Material.AIR) {
                 return false;
             }
             else if (item.hasItemMeta()) {
@@ -91,9 +92,7 @@ public class Ingredient implements Predicate<ItemStack> {
      *            The items to use
      */
     public Ingredient(ItemStack... items) {
-        if (items.length == 0) {
-            throw new IllegalArgumentException("An Ingredient must have at least one ItemStack!");
-        }
+        Validate.notEmpty(items, "An Ingredient must not be empty, use 'Ingredient.empty()' instead!");
 
         this.predicate = new ItemPredicate(items);
         this.variations = Arrays.asList(items);
@@ -112,6 +111,14 @@ public class Ingredient implements Predicate<ItemStack> {
      */
     public Collection<ItemStack> getVariations() {
         return variations;
+    }
+
+    /**
+     * This returns an empty {@link Ingredient}.
+     * The {@link Predicate} will match if the given {@link ItemStack} is either null or Air.
+     */
+    public static Ingredient empty() {
+        return emptyIngredient;
     }
 
 }

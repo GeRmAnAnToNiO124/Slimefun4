@@ -12,16 +12,20 @@ class ItemPredicate implements Predicate<ItemStack> {
 
     private final ItemStack[] items;
 
-    public ItemPredicate(ItemStack[] items) {
+    ItemPredicate(ItemStack[] items) {
         this.items = new ItemStack[items.length];
 
         for (int i = 0; i < items.length; i++) {
             ItemStack item = items[i];
 
             if (item instanceof SlimefunItemStack) {
+                // SlimefunItemStacks are already optimized and carry a Slimefun item id.
+                // So we just store them as they are.
                 this.items[i] = item;
             }
             else {
+                // Normal ItemStacks are unoptimized so we create a wrapper for them which
+                // speeds up .getItemMeta() calls by caching the ItemMeta.
                 this.items[i] = new ItemStackWrapper(item);
             }
         }
@@ -31,6 +35,7 @@ class ItemPredicate implements Predicate<ItemStack> {
     public boolean test(ItemStack subject) {
         for (ItemStack item : items) {
             if (SlimefunUtils.isItemSimilar(subject, item, true, false)) {
+                // Return true if any of the items matched
                 return true;
             }
         }
